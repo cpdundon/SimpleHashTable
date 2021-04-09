@@ -1,14 +1,15 @@
 package com.example.simplehashtable.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.simplehashtable.R
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.example.simplehashtable.databinding.ActivityMainBinding
 import com.example.simplehashtable.utils.HashTableExperiment
+import com.example.simplehashtable.utils.HashTableGeneric
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val hte = HashTableExperiment(100)
+    private val hte = HashTableGeneric<String, String>(1000)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +24,17 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        hte.getValue("CPD")?.let{
-            binding.tvValue.text = it
-        }
+        setListeners()
+    }
+
+    private fun setListeners() {
+        binding.btnFetchValue.setOnClickListener(View.OnClickListener {
+            onFetch()
+        })
+    }
+
+    private fun onFetch() {
+        val value = hte.getValue(binding.etKey.text.toString())
+        binding.tvValue.text = value
     }
 }

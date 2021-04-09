@@ -2,15 +2,15 @@ package com.example.simplehashtable.utils
 
 import java.security.MessageDigest
 
-class HashTableExperiment (val size : Int) {
-    private val table = Array<String?>(size) { null }
+class HashTableGeneric <in K, V> (val size : Int) {
+    private val table = MutableList<V?>(size) {null}
 
-    public fun getValue(key: String) : String? {
-        return table[hashOfKey(key)]
+    public fun getValue(key: K) : V? {
+        return table[hashOfKey(key.toString())]
     }
 
-    public fun insertValue(key : String, value : String) : Boolean {
-        val idx = hashOfKey(key)
+    public fun insertValue(key : K, value : V) : Boolean {
+        val idx = hashOfKey(key.toString())
         return if (table[idx] == null) {
             table[idx] = value
             true
